@@ -19,8 +19,8 @@
     @endif
 
     @php
-    $badge = $aspirasi->status=='menunggu' ? 'secondary'
-           : ($aspirasi->status=='proses' ? 'warning'
+    $badge = $aspirasi->status=='menunggu' ? 'warning'
+           : ($aspirasi->status=='proses' ? 'primary'
            : ($aspirasi->status=='selesai' ? 'success' : 'danger'));
 @endphp
 

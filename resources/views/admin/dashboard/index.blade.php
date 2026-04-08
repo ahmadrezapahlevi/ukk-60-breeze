@@ -30,7 +30,7 @@
                                 <div class="text-muted">Menunggu</div>
                                 <div class="fw-bold display-6 mb-0">{{ $menunggu }}</div>
                             </div>
-                            <span class="badge text-bg-secondary rounded-pill px-3 py-2">Pending</span>
+                            <span class="badge text-bg-warning rounded-pill px-3 py-2">Pending</span>
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                                 <div class="text-muted">Diproses</div>
                                 <div class="fw-bold display-6 mb-0">{{ $proses }}</div>
                             </div>
-                            <span class="badge text-bg-warning rounded-pill px-3 py-2">Process</span>
+                            <span class="badge text-bg-primary rounded-pill px-3 py-2">Process</span>
                         </div>
                     </div>
                 </div>

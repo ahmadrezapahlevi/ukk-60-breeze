@@ -47,9 +47,9 @@
                                 @php
                                     $badge =
                                         $a->status == 'menunggu'
-                                            ? 'secondary'
+                                            ? 'warning'
                                             : ($a->status == 'proses'
-                                                ? 'warning'
+                                                ? 'primary'
                                                 : ($a->status == 'ditolak'
                                                     ? 'danger'
                                                     : 'success'));
