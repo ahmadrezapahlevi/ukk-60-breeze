@@ -34,7 +34,7 @@
                         Siswa: <strong>{{ auth()->user()->name }}</strong>
                     </div>
 
-                    <form method="POST" action="/aspirasi/{{ $aspirasi->id }}">
+                    <form method="POST" action="/aspirasi/{{ $aspirasi->id }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -59,6 +59,25 @@
                                 value="{{ old('lokasi', $aspirasi->lokasi) }}"
                                 placeholder="Contoh: Ruang Kelas XII RPL 2"
                                 required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Foto</label>
+                            <input type="file"
+                                   name="foto"
+                                   class="form-control"
+                                   accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                            <div class="form-text">Kosongkan jika tidak ingin mengganti foto.</div>
+
+                            @if($aspirasi->foto)
+                                <div class="mt-3">
+                                    <div class="small text-muted mb-2">Foto saat ini</div>
+                                    <img src="{{ asset('storage/' . $aspirasi->foto) }}"
+                                         alt="Foto aspirasi"
+                                         class="img-fluid rounded-4 border"
+                                         style="max-height: 240px;">
+                                </div>
+                            @endif
                         </div>
 
                         <div class="mb-4">

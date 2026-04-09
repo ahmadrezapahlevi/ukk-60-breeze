@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Aspirasi;
 use App\Models\Kategori;
+use Illuminate\Support\Facades\Storage;
 
 class SiswaAspirasiController extends Controller
 {
@@ -40,16 +41,29 @@ class SiswaAspirasiController extends Controller
     public function store(Request $r)
     {
         $r->validate([
-            'kategori_id' => 'required',
-            'lokasi' => 'required',
-            'keterangan' => 'required'
+            'kategori_id' => 'required|exists:kategoris,id',
+            'lokasi' => 'required|max:50',
+            'keterangan' => 'required|max:255',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'Foto harus berformat jpg, jpeg, atau png.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
         ]);
+
+        $fotoPath = null;
+
+        if ($r->hasFile('foto')) {
+            $fotoPath = $r->file('foto')->store('aspirasi', 'public');
+        }
 
         Aspirasi::create([
             'siswa_id' => auth()->id(),
             'kategori_id' => $r->kategori_id,
             'lokasi' => $r->lokasi,
-            'keterangan' => $r->keterangan
+            'keterangan' => $r->keterangan,
+            'foto' => $fotoPath,
+            'status' => 'menunggu',
         ]);
 
         return redirect('/aspirasi')->with('success', 'Aspirasi berhasil dikirim');
@@ -92,16 +106,31 @@ class SiswaAspirasiController extends Controller
         }
 
         $r->validate([
-            'kategori_id' => 'required',
-            'lokasi' => 'required',
-            'keterangan' => 'required'
+            'kategori_id' => 'required|exists:kategoris,id',
+            'lokasi' => 'required|max:50',
+            'keterangan' => 'required|max:255',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'foto.image' => 'File foto harus berupa gambar.',
+            'foto.mimes' => 'Foto harus berformat jpg, jpeg, atau png.',
+            'foto.max' => 'Ukuran foto maksimal 2MB.',
         ]);
 
-        $aspirasi->update([
+        $data = [
             'kategori_id' => $r->kategori_id,
             'lokasi' => $r->lokasi,
-            'keterangan' => $r->keterangan
-        ]);
+            'keterangan' => $r->keterangan,
+        ];
+
+        if ($r->hasFile('foto')) {
+            if ($aspirasi->foto && Storage::disk('public')->exists($aspirasi->foto)) {
+                Storage::disk('public')->delete($aspirasi->foto);
+            }
+
+            $data['foto'] = $r->file('foto')->store('aspirasi', 'public');
+        }
+
+        $aspirasi->update($data);
 
         return redirect('/aspirasi')->with('success', 'Aspirasi berhasil diperbarui');
     }
@@ -114,6 +143,10 @@ class SiswaAspirasiController extends Controller
 
         if ($aspirasi->status !== 'menunggu') {
             return redirect('/aspirasi')->with('error', 'Aspirasi hanya bisa dihapus saat status masih menunggu');
+        }
+
+        if ($aspirasi->foto && Storage::disk('public')->exists($aspirasi->foto)) {
+            Storage::disk('public')->delete($aspirasi->foto);
         }
 
         $aspirasi->delete();

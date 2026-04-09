@@ -34,7 +34,7 @@
                         Siswa: <strong>{{ auth()->user()->name }}</strong>
                     </div>
 
-                    <form method="POST" action="/aspirasi">
+                    <form method="POST" action="/aspirasi" enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-3">
@@ -56,6 +56,15 @@
                                    value="{{ old('lokasi') }}"
                                    placeholder="Contoh: Ruang Kelas XII RPL 2"
                                    required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Foto</label>
+                            <input type="file"
+                                   name="foto"
+                                   class="form-control"
+                                   accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                            <div class="form-text">Opsional. Format: JPG, JPEG, PNG. Maksimal 2MB.</div>
                         </div>
 
                         <div class="mb-4">

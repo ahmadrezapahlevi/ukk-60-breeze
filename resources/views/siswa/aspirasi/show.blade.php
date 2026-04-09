@@ -87,6 +87,15 @@
                         </span>
                     </div>
 
+                    @if($aspirasi->foto)
+                        <div class="mb-3">
+                            <div class="small text-muted mb-2">Foto</div>
+                            <img src="{{ asset('storage/' . $aspirasi->foto) }}"
+                                 alt="Foto aspirasi"
+                                 class="img-fluid rounded-4 border">
+                        </div>
+                    @endif
+
                     <div class="mb-0">
                         <div class="small text-muted mb-1">Keterangan</div>
                         <div class="lh-lg">

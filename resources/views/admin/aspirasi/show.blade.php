@@ -3,7 +3,6 @@
 @section('content')
 <div class="container py-4">
 
-    {{-- Header --}}
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
         <div>
             <h4 class="fw-bold mb-1">Detail Aspirasi</h4>
@@ -22,11 +21,10 @@
     $badge = $aspirasi->status=='menunggu' ? 'warning'
            : ($aspirasi->status=='proses' ? 'primary'
            : ($aspirasi->status=='selesai' ? 'success' : 'danger'));
-@endphp
+    @endphp
 
     <div class="row g-4">
 
-        {{-- LEFT: Detail + Update Status --}}
         <div class="col-lg-6">
 
             <div class="card border-0 shadow-sm rounded-4">
@@ -61,6 +59,16 @@
                             <div class="text-muted small">Lokasi</div>
                             <div class="fw-semibold">{{ $aspirasi->lokasi }}</div>
                         </div>
+
+                        @if($aspirasi->foto)
+                            <div class="col-12">
+                                <div class="text-muted small mb-2">Foto</div>
+                                <img src="{{ asset('storage/' . $aspirasi->foto) }}"
+                                     alt="Foto aspirasi"
+                                     class="img-fluid rounded-4 border">
+                            </div>
+                        @endif
+
                         <div class="col-12">
                             <div class="text-muted small">Keterangan</div>
                             <div class="border rounded-4 p-3 bg-light">
@@ -92,7 +100,6 @@
 
         </div>
 
-        {{-- RIGHT: Feedback --}}
         <div class="col-lg-6">
 
             <div class="card border-0 shadow-sm rounded-4">
@@ -107,7 +114,6 @@
                         </span>
                     </div>
 
-                    {{-- List feedback --}}
                     @if($aspirasi->feedbacks->count())
                         <div class="vstack gap-3 mb-4">
                             @foreach($aspirasi->feedbacks as $f)
@@ -132,7 +138,6 @@
                         </div>
                     @endif
 
-                    {{-- Form feedback --}}
                     <form method="POST" action="/admin/aspirasi/{{ $aspirasi->id }}/feedback">
                         @csrf
                         <label class="form-label small text-muted">Tulis Feedback</label>

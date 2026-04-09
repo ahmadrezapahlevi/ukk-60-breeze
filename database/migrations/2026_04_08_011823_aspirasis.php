@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreignId('kategori_id')->constrained('kategoris');
             $table->string('lokasi', 50);
             $table->string('keterangan', 255);
-            $table->enum('status', ['menunggu', 'proses', 'selesai', 'ditolak']);
+            $table->string('foto')->nullable();
+            $table->enum('status', ['menunggu', 'proses', 'selesai', 'ditolak'])->default('menunggu');
             $table->timestamps();
         });
     }
