@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center text-sm">
-                        <a href="{{ route('register') }}" class="text-decoration-none">Belum punya akun? Daftar</a>
+                        {{-- <a href="{{ route('register') }}" class="text-decoration-none">Belum punya akun? Daftar</a> --}}
                         {{-- @if (Route::has('password.request'))
                             <a href="{{ route('password.request') }}" class="text-decoration-none text-muted">Lupa password?</a>
                         @endif --}}
